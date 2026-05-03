@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+{% block na %}act{% endblock %}
+
+{% block content %}
+<div class="abtp">
+    <div class="phdr"><div><h1 class="ptl">About CarbonLedger</h1><p class="pstl">Understanding carbon emissions, credits, and ESG compliance</p></div></div>
+
+    <div class="abtsec">
+        <div class="abtcd cd">
+            <div class="ib ib-g" style="width:76px;height:76px;border-radius:var(--r3);font-size:30px;box-shadow:0 0 36px rgba(0,255,136,.08)"><i class="fas fa-smog"></i></div>
+            <div class="abtct">
+                <h2>What is Carbon Emission?</h2>
+                <p>Carbon emissions refer to the release of carbon dioxide (CO₂) and other greenhouse gases into the atmosphere, primarily from burning fossil fuels, industrial processes, and human activities. These emissions are the leading cause of global climate change.</p>
+                <div class="abthl">
+                    <div class="abthli"><i class="fas fa-industry"></i> Industrial processes contribute 21% of global emissions</div>
+                    <div class="abthli"><i class="fas fa-car"></i> Transportation accounts for 16% of CO₂ output</div>
+                    <div class="abthli"><i class="fas fa-bolt"></i> Electricity generation produces 25% of emissions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="abtsec">
+        <div class="abtcd cd rev">
+            <div class="ib ib-b" style="width:76px;height:76px;border-radius:var(--r3);font-size:30px;box-shadow:0 0 36px rgba(59,130,246,.08)"><i class="fas fa-coins"></i></div>
+            <div class="abtct">
+                <h2>What are Carbon Credits?</h2>
+                <p>Carbon credits are tradable permits that represent the right to emit one metric ton (1,000 kg) of CO₂ or equivalent greenhouse gases. They create a financial incentive for companies to reduce their emissions.</p>
+                <div class="abthl">
+                    <div class="abthli"><i class="fas fa-balance-scale"></i> 1 Carbon Credit = 1,000 kg CO₂</div>
+                    <div class="abthli"><i class="fas fa-rupee-sign"></i> Current rate: ₹800 per credit</div>
+                    <div class="abthli"><i class="fas fa-exchange-alt"></i> Credits can be traded on carbon markets</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="abtsec">
+        <div class="abtcd cd">
+            <div class="ib ib-p" style="width:76px;height:76px;border-radius:var(--r3);font-size:30px;box-shadow:0 0 36px rgba(139,92,246,.08)"><i class="fas fa-chart-pie"></i></div>
+            <div class="abtct">
+                <h2>Why ESG Matters?</h2>
+                <p>ESG (Environmental, Social, Governance) is a framework for evaluating a company's sustainability and ethical impact. Environmental criteria consider how a company manages its ecological footprint, including carbon emissions.</p>
+                <div class="abthl">
+                    <div class="abthli"><i class="fas fa-globe-americas"></i> ESG-compliant companies attract 25% more investors</div>
+                    <div class="abthli"><i class="fas fa-hand-holding-usd"></i> Regulatory compliance reduces financial risk</div>
+                    <div class="abthli"><i class="fas fa-users"></i> Consumers prefer sustainable businesses 3:1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="facsec">
+        <h2 class="stlin"><i class="fas fa-cogs"></i> Our Emission Factors</h2>
+        <div class="facgrid">
+            <div class="facc cd"><i class="fas fa-bolt"></i><h4>Electricity</h4><p>0.8 kg CO₂ / kWh</p></div>
+            <div class="facc cd"><i class="fas fa-gas-pump"></i><h4>Petrol/Diesel</h4><p>2.3 kg CO₂ / litre</p></div>
+            <div class="facc cd"><i class="fas fa-fire"></i><h4>LPG</h4><p>45 kg CO₂ / cylinder</p></div>
+            <div class="facc cd"><i class="fas fa-route"></i><h4>Travel</h4><p>0.2 kg CO₂ / km</p></div>
+            <div class="facc cd"><i class="fas fa-dumpster"></i><h4>Waste</h4><p>1.5 kg CO₂ / kg</p></div>
+        </div>
+    </div>
+
+    <div class="abtcta">
+        <h2>Ready to Start Tracking?</h2>
+        <p>Create your free account and begin optimizing your carbon emissions today.</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'calculator_input' %}" class="bp glow"><i class="fas fa-calculator"></i> Calculate Emissions</a>
+        {% else %}
+        <a href="{% url 'register' %}" class="bp glow"><i class="fas fa-rocket"></i> Get Started Free</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

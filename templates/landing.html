@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Track. Analyze. Optimize{% endblock %}
+{% block mcls %}authpg{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hc">
+        <div class="hbadge"><i class="fas fa-sparkles"></i> AI-Powered Carbon Optimization Engine</div>
+        <h1 class="htitle">Track. Analyze.<br><span class="gt">Optimize Your Carbon Emissions</span></h1>
+        <p class="hsub">Real-time carbon emission tracking, intelligent credit optimization, and AI-driven sustainability insights — all in one enterprise-grade platform.</p>
+        <div class="hact">
+            <a href="{% url 'register' %}" class="bp glow"><i class="fas fa-rocket"></i> Start Analysis</a>
+            <a href="{% url 'about' %}" class="bs"><i class="fas fa-play-circle"></i> Learn More</a>
+        </div>
+        <!-- <div class="hstats">
+            <div class="hst"><span class="hsn"><span class="ctr" data-target="2847">0</span></span><span class="hsl">Companies Tracked</span></div>
+            <div class="hsd"></div>
+            <div class="hst"><span class="hsn"><span class="ctr" data-target="15420">0</span></span><span class="hsl">Credits Optimized</span></div>
+            <div class="hsd"></div>
+            <div class="hst"><span class="hsn">₹<span class="ctr" data-target="28">0</span>M</span><span class="hsl">Savings Delivered</span></div>
+        </div> -->
+    </div>
+    <div class="hvis">
+        <div class="horb"></div>
+        <div class="hcard hc1">
+            <div class="mcico ib-g"><i class="fas fa-leaf"></i></div>
+            <div><div class="mcv">-23%</div><div class="mcl">Emissions Reduced</div></div>
+        </div>
+        <div class="hcard hc2">
+            <div class="mcico ib-b"><i class="fas fa-chart-line"></i></div>
+            <div><div class="mcv">₹4.2L</div><div class="mcl">Credits Saved</div></div>
+        </div>
+        <div class="hcard hc3">
+            <div class="mcico ib-p"><i class="fas fa-bolt"></i></div>
+            <div><div class="mcv">98.5%</div><div class="mcl">Accuracy Rate</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="fesec">
+    <div class="shdr">
+        <span class="sbadge">Features</span>
+        <h2 class="stl">Everything You Need to <span class="gt">Go Green</span></h2>
+        <p class="stlb">Powerful tools designed for modern businesses committed to sustainability</p>
+    </div>
+    <div class="fegrid">
+        <div class="fec cd"><div class="feico ib-g"><i class="fas fa-calculator"></i></div><h3>Emission Calculator</h3><p>Calculate carbon emissions across electricity, fuel, travel, and waste with precision factor-based analysis.</p></div>
+        <div class="fec cd"><div class="feico ib-b"><i class="fas fa-coins"></i></div><h3>Credit Optimization</h3><p>Convert emissions into carbon credits and get real-time ₹ cost estimates for compliance planning.</p></div>
+        <div class="fec cd"><div class="feico ib-p"><i class="fas fa-brain"></i></div><h3>AI-Powered Insights</h3><p>Predictive analytics and smart recommendations to reduce your carbon footprint proactively.</p></div>
+        <div class="fec cd"><div class="feico ib-o"><i class="fas fa-chart-pie"></i></div><h3>Real-Time Analytics</h3><p>Interactive dashboards with monthly trends and category breakdowns for data-driven decisions.</p></div>
+        <div class="fec cd"><div class="feico ib-t"><i class="fas fa-shield-alt"></i></div><h3>ESG Compliance</h3><p>Stay ahead of environmental regulations with automated tracking and comprehensive reporting.</p></div>
+        <div class="fec cd"><div class="feico ib ib-r"><i class="fas fa-lightbulb" style="background:rgba(236,72,153,.1);color:#ec4899"></i></div><h3>Smart Suggestions</h3><p>Personalized sustainability recommendations with estimated savings for every business category.</p></div>
+    </div>
+</section>
+
+<section class="howsec">
+    <div class="shdr">
+        <span class="sbadge">Process</span>
+        <h2 class="stl">How <span class="gt">CarbonLedger</span> Works</h2>
+    </div>
+    <div class="stepsc">
+        <div class="stp cd"><div class="stpn">01</div><h3>Input Your Data</h3><p>Enter electricity, fuel, LPG, travel, and waste usage data</p></div>
+        <div class="stp cd"><div class="stpn">02</div><h3>Calculate Emissions</h3><p>Our engine calculates total CO₂ emissions using verified factors</p></div>
+        <div class="stp cd"><div class="stpn">03</div><h3>Optimize Credits</h3><p>Get carbon credit requirements and ₹ cost estimates instantly</p></div>
+        <div class="stp cd"><div class="stpn">04</div><h3>Take Action</h3><p>Follow AI suggestions to reduce emissions and save money</p></div>
+    </div>
+</section>
+
+<section class="ctasec">
+    <div class="ctagl"></div>
+    <h2 class="ctatl">Ready to <span class="gt">Optimize</span> Your Carbon Emissions?</h2>
+    <p class="ctx">Join thousands of businesses already reducing their environmental impact with CarbonLedger.</p>
+    <a href="{% url 'register' %}" class="bp glow bl"><i class="fas fa-rocket"></i> Get Started Free</a>
+</section>
+{% endblock %}

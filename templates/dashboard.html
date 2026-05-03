@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block nd %}act{% endblock %}
+
+{% block content %}
+<div class="dash">
+    <div class="phdr">
+        <div><h1 class="ptl">Dashboard</h1><p class="pstl">Real-time carbon emission analytics & credit optimization</p></div>
+        <a href="{% url 'calculator_input' %}" class="bp"><i class="fas fa-plus"></i> New Calculation</a>
+    </div>
+
+    <div class="insb">
+        <div class="insi"><i class="fas fa-brain"></i></div>
+        <div>
+            <span class="inslb">AI-Powered Insight</span>
+            <p class="instx">{{ fake_insight.prediction }}</p>
+            <p class="inssv">{{ fake_insight.saving }}</p>
+        </div>
+        <div class="insbg {{ fake_insight.rating|lower|cut:' ' }}">{{ fake_insight.rating }}</div>
+    </div>
+
+    <div class="sgrid">
+        <div class="scard cd">
+            <div class="sch"><div class="sico ib-g"><i class="fas fa-smog"></i></div><span class="str {% if fake_insight.trend == 'up' %}up{% else %}dn{% endif %}"><i class="fas fa-arrow-{% if fake_insight.trend == 'up' %}up{% else %}down{% endif %}"></i> {% if fake_insight.trend == 'up' %}+8.3%{% else %}-5.1%{% endif %}</span></div>
+            <div class="sval">{{ total_emission|floatformat:2 }}</div>
+            <div class="slab">Total Emissions (kg CO₂)</div>
+            <div class="sbar"><div class="sbf sbf-e" style="width:{% widthratio total_emission 10000 100 %}%;max-width:100%"></div></div>
+        </div>
+        <div class="scard cd">
+            <div class="sch"><div class="sico ib-b"><i class="fas fa-coins"></i></div><span class="str dn"><i class="fas fa-arrow-down"></i> Optimized</span></div>
+            <div class="sval">{{ total_credits|floatformat:4 }}</div>
+            <div class="slab">Carbon Credits Required</div>
+            <div class="sbar"><div class="sbf sbf-c" style="width:{% widthratio total_credits 10 100 %}%;max-width:100%"></div></div>
+        </div>
+        <div class="scard cd">
+            <div class="sch"><div class="sico ib-o"><i class="fas fa-rupee-sign"></i></div><span class="str up"><i class="fas fa-arrow-up"></i> Est.</span></div>
+            <div class="sval">₹{{ total_cost|floatformat:2 }}</div>
+            <div class="slab">Estimated Cost (₹)</div>
+            <div class="sbar"><div class="sbf sbf-o" style="width:{% widthratio total_cost 10000 100 %}%;max-width:100%"></div></div>
+        </div>
+        <div class="scard cd">
+            <div class="sch"><div class="sico ib-p"><i class="fas fa-clipboard-list"></i></div></div>
+            <div class="sval">{{ record_count }}</div>
+            <div class="slab">Calculations Performed</div>
+            <div class="sbar"><div class="sbf sbf-p" style="width:100%"></div></div>
+        </div>
+    </div>
+
+    <div class="cgrid">
+        <div class="ccard cd">
+            <div class="cchdr"><h3><i class="fas fa-chart-line"></i> Monthly Emissions</h3><span class="ccb">Real-Time Analytics</span></div>
+            <div class="cbdy"><canvas id="mChart"></canvas></div>
+        </div>
+        <div class="ccard cd">
+            <div class="cchdr"><h3><i class="fas fa-chart-pie"></i> Category Breakdown</h3><span class="ccb">Emission Sources</span></div>
+            <div class="cbdy cbdy-d"><canvas id="cChart"></canvas></div>
+        </div>
+    </div>
+
+    <div class="recc cd">
+        <div class="recch"><h3><i class="fas fa-history"></i> Recent Calculations</h3></div>
+        <div class="rtw">
+            {% if recent_records %}
+            <table class="rtbl">
+                <thead><tr><th>Date</th><th>Emission (kg CO₂)</th><th>Credits</th><th>Cost (₹)</th><th>Status</th></tr></thead>
+                <tbody>
+                {% for r in recent_records %}
+                <tr>
+                    <td>{{ r.created_at|date:"M d, Y H:i" }}</td>
+                    <td>{{ r.total_emission|floatformat:2 }}</td>
+                    <td>{{ r.carbon_credits|floatformat:4 }}</td>
+                    <td>₹{{ r.estimated_cost|floatformat:2 }}</td>
+                    <td><span class="stbdg {% if r.total_emission > 3000 %}st-hi{% elif r.total_emission > 1000 %}st-md{% else %}st-lo{% endif %}">{% if r.total_emission > 3000 %}High{% elif r.total_emission > 1000 %}Medium{% else %}Low{% endif %}</span></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empts"><i class="fas fa-leaf"></i><p>No calculations yet. Start your first emission analysis!</p><a href="{% url 'calculator_input' %}" class="bp bsm"><i class="fas fa-plus"></i> Start Analysis</a></div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const mCtx=document.getElementById('mChart').getContext('2d');
+const mGr=mCtx.createLinearGradient(0,0,0,260);
+mGr.addColorStop(0,'rgba(0,255,136,0.25)');mGr.addColorStop(1,'rgba(0,255,136,0)');
+new Chart(mCtx,{type:'line',data:{labels:{{ monthly_labels|safe }},datasets:[{label:'Emissions (kg CO₂)',data:{{ monthly_data|safe }},borderColor:'#00ff88',backgroundColor:mGr,fill:true,tension:.4,borderWidth:3,pointBackgroundColor:'#00ff88',pointBorderColor:'#0a0f1e',pointBorderWidth:3,pointRadius:5,pointHoverRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#64748b',font:{family:'Inter'}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#64748b',font:{family:'Inter'}}}}}});
+
+new Chart(document.getElementById('cChart').getContext('2d'),{type:'doughnut',data:{labels:{{ cat_labels|safe }},datasets:[{data:{{ cat_data|safe }},backgroundColor:['#00ff88','#3b82f6','#f59e0b','#8b5cf6','#ef4444'],borderColor:'#0a0f1e',borderWidth:4,hoverOffset:10}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',padding:14,font:{family:'Inter',size:12},usePointStyle:true,pointStyleWidth:10}}}}});
+</script>
+{% endblock %}

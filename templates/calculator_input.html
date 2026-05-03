@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Calculate Emissions{% endblock %}
+{% block nc %}act{% endblock %}
+
+{% block content %}
+<div class="calcp">
+    <div class="phdr">
+        <div><h1 class="ptl">Emission Calculator</h1><p class="pstl">Carbon Optimization Engine — Enter your usage data below</p></div>
+    </div>
+
+    <div class="engb">
+        <div class="engp"></div>
+        <span>Carbon Optimization Engine Active</span>
+        <div class="engd"><span class="d"></span><span class="d"></span><span class="d"></span></div>
+    </div>
+
+    <form method="POST" id="calcForm">
+        {% csrf_token %}
+        <div class="calgrid">
+            <div class="inpc cd">
+                <div class="inpch"><div class="inpico ib-o"><i class="fas fa-bolt"></i></div><div><h3>Electricity Usage</h3><span class="inpfc">Factor: 0.8 kg CO₂/kWh</span></div></div>
+                <div class="inpf"><div class="inpfx"><i class="fas fa-bolt"></i></div>{{ form.electricity_kwh }}<div class="inpfx2">kWh</div></div>
+            </div>
+            <div class="inpc cd">
+                <div class="inpch"><div class="inpico ib-r"><i class="fas fa-gas-pump"></i></div><div><h3>Fuel Usage</h3><span class="inpfc">Factor: 2.3 kg CO₂/litre</span></div></div>
+                <div class="inpf"><div class="inpfx"><i class="fas fa-gas-pump"></i></div>{{ form.fuel_litres }}<div class="inpfx2">litres</div></div>
+            </div>
+            <div class="inpc cd">
+                <div class="inpch"><div class="inpico ib-p"><i class="fas fa-fire"></i></div><div><h3>LPG Cylinders</h3><span class="inpfc">Factor: 45 kg CO₂/cylinder</span></div></div>
+                <div class="inpf"><div class="inpfx"><i class="fas fa-fire"></i></div>{{ form.lpg_cylinders }}<div class="inpfx2">cylinders</div></div>
+            </div>
+            <div class="inpc cd">
+                <div class="inpch"><div class="inpico ib-b"><i class="fas fa-route"></i></div><div><h3>Employee Travel</h3><span class="inpfc">Factor: 0.2 kg CO₂/km</span></div></div>
+                <div class="inpf"><div class="inpfx"><i class="fas fa-route"></i></div>{{ form.travel_km }}<div class="inpfx2">km</div></div>
+            </div>
+            <div class="inpc cd">
+                <div class="inpch"><div class="inpico ib-t"><i class="fas fa-dumpster"></i></div><div><h3>Waste Generated</h3><span class="inpfc">Factor: 1.5 kg CO₂/kg</span></div></div>
+                <div class="inpf"><div class="inpfx"><i class="fas fa-dumpster"></i></div>{{ form.waste_kg }}<div class="inpfx2">kg</div></div>
+            </div>
+        </div>
+
+        <div class="lprev">
+            <div class="lprevh"><div class="lprevp"></div><span>Live Estimate</span></div>
+            <div class="lprevv">
+                <div class="lprevi"><span class="lprevl">Est. Emission</span><span class="lprevvl" id="pvE">0.00 kg CO₂</span></div>
+                <div class="lprevi"><span class="lprevl">Est. Credits</span><span class="lprevvl" id="pvC">0.0000</span></div>
+                <div class="lprevi"><span class="lprevl">Est. Cost</span><span class="lprevvl" id="pvCo">₹0.00</span></div>
+            </div>
+        </div>
+
+        <button type="submit" class="bp glow bcalc"><i class="fas fa-atom"></i> Calculate Emissions</button>
+    </form>
+</div>
+
+<div class="ldov" id="ldOv">
+    <div class="ldc">
+        <div class="ldsp"><div class="sr"></div><div class="sr"></div><div class="sr"></div></div>
+        <h3>Analyzing Carbon Emissions</h3>
+        <p class="ldtx">Running optimization algorithms...</p>
+        <div class="ldpr"><div class="ldbr" id="ldBr"></div></div>
+    </div>
+</div>
+
+<script>
+const F={e:.8,f:2.3,l:45,t:.2,w:1.5};
+function updPv(){
+    const e=parseFloat(document.getElementById('id_electricity_kwh').value)||0;
+    const f=parseFloat(document.getElementById('id_fuel_litres').value)||0;
+    const l=parseFloat(document.getElementById('id_lpg_cylinders').value)||0;
+    const t=parseFloat(document.getElementById('id_travel_km').value)||0;
+    const w=parseFloat(document.getElementById('id_waste_kg').value)||0;
+    const tot=(e*F.e)+(f*F.f)+(l*F.l)+(t*F.t)+(w*F.w);
+    const cr=tot/1000;const co=cr*800;
+    document.getElementById('pvE').textContent=tot.toFixed(2)+' kg CO₂';
+    document.getElementById('pvC').textContent=cr.toFixed(4);
+    document.getElementById('pvCo').textContent='₹'+co.toFixed(2);
+}
+document.querySelectorAll('#calcForm input[type="number"]').forEach(i=>i.addEventListener('input',updPv));
+document.getElementById('calcForm').addEventListener('submit',function(){
+    const ov=document.getElementById('ldOv');ov.classList.add('act');document.body.style.overflow='hidden';
+    const br=document.getElementById('ldBr');let w=0;const iv=setInterval(()=>{if(w>=90)clearInterval(iv);else{w+=Math.random()*15;if(w>90)w=90;br.style.width=w+'%'}},200);
+});
+</script>
+{% endblock %}

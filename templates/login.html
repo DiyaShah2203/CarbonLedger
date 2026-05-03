@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+{% block mcls %}authpg{% endblock %}
+
+{% block content %}
+<div class="ac">
+    <div class="acard">
+        <div class="ahdr">
+            <div class="alogo"><div class="logo-i"><i class="fas fa-leaf"></i></div><span class="logo-t">Carbon<span class="a">Ledger</span></span></div>
+            <h2>Welcome Back</h2>
+            <p>Sign in to access your carbon optimization dashboard</p>
+        </div>
+        <form method="POST" class="aform">
+            {% csrf_token %}
+            <div class="fg">
+                <label><i class="fas fa-user"></i> Username</label>
+                <input type="text" name="username" class="fi" placeholder="Enter your username" required>
+            </div>
+            <div class="fg">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <div class="pwrap">
+                    <input type="password" name="password" id="pw1" class="fi" placeholder="Enter your password" required>
+                    <button type="button" class="ptog" onclick="tgPw('pw1',this)"><i class="fas fa-eye"></i></button>
+                </div>
+            </div>
+            <button type="submit" class="bp bf"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+        </form>
+        <div class="aft"><p>Don't have an account? <a href="{% url 'register' %}" class="alink">Create Account</a></p></div>
+    </div>
+    <div class="avis">
+        <div class="fico fi1"><i class="fas fa-leaf"></i></div>
+        <div class="fico fi2"><i class="fas fa-wind"></i></div>
+        <div class="fico fi3"><i class="fas fa-seedling"></i></div>
+        <div class="fico fi4"><i class="fas fa-globe-americas"></i></div>
+        <div class="avc">
+            <h2>Carbon Optimization<br><span class="gt">Made Simple</span></h2>
+            <p>Track emissions. Optimize credits. Build a sustainable future.</p>
+        </div>
+    </div>
+</div>
+<script>function tgPw(id,b){const f=document.getElementById(id),i=b.querySelector('i');if(f.type==='password'){f.type='text';i.className='fas fa-eye-slash'}else{f.type='password';i.className='fas fa-eye'}}</script>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Analysis Results{% endblock %}
+
+{% block content %}
+<div class="resp">
+    <div class="phdr">
+        <div><h1 class="ptl">Analysis Results</h1><p class="pstl">Carbon Optimization Engine — Analysis Complete</p></div>
+        <a href="{% url 'calculator_input' %}" class="bs"><i class="fas fa-redo"></i> New Calculation</a>
+    </div>
+
+    <div class="rhero">
+        <div class="rcard cd rmain">
+            <div class="rmico"><i class="fas fa-smog"></i></div>
+            <h3>Total Carbon Emissions</h3>
+            <div class="rmval rcan" data-target="{{ results.total_emission }}" data-dec="2">0</div>
+            <div class="rmunit">kg CO₂</div>
+        </div>
+        <div class="rcard cd rcrd">
+            <div class="rico"><i class="fas fa-coins"></i></div>
+            <h3>Carbon Credits Required</h3>
+            <div class="rval rcan" data-target="{{ results.carbon_credits }}" data-dec="4">0</div>
+            <div class="runit">1 credit = 1000 kg CO₂</div>
+        </div>
+        <div class="rcard cd rcst">
+            <div class="rico"><i class="fas fa-rupee-sign"></i></div>
+            <h3>Estimated Cost</h3>
+            <div class="rval">₹<span class="rcan" data-target="{{ results.estimated_cost }}" data-dec="2">0</span></div>
+            <div class="runit">at ₹800 per credit</div>
+        </div>
+    </div>
+
+    <div class="scrsec">
+        <div class="scrcd cd">
+            <div class="scrhdr"><h3><i class="fas fa-tachometer-alt"></i> Emission Score</h3><span class="scrlab">{% if score >= 75 %}Excellent{% elif score >= 50 %}Moderate{% else %}Needs Improvement{% endif %}</span></div>
+            <div class="scrbc">
+                <div class="scrb"><div class="scrbf" id="scoreBar" data-score="{{ score }}"></div></div>
+                <div class="scrv">{{ score }}/100</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bksec">
+        <h2 class="stlin"><i class="fas fa-chart-bar"></i> Emission Breakdown</h2>
+        <div class="bkgrid">
+            <div class="bkitem cd"><div class="bkhdr"><span class="bknm"><i class="fas fa-bolt"></i> Electricity</span><span class="bkvl">{{ results.electricity_emission }} kg</span></div><div class="bkbar"><div class="bkf bkf-e" style="width:{% if results.total_emission > 0 %}{% widthratio results.electricity_emission results.total_emission 100 %}{% else %}0{% endif %}%"></div></div></div>
+            <div class="bkitem cd"><div class="bkhdr"><span class="bknm"><i class="fas fa-gas-pump"></i> Fuel</span><span class="bkvl">{{ results.fuel_emission }} kg</span></div><div class="bkbar"><div class="bkf bkf-f" style="width:{% if results.total_emission > 0 %}{% widthratio results.fuel_emission results.total_emission 100 %}{% else %}0{% endif %}%"></div></div></div>
+            <div class="bkitem cd"><div class="bkhdr"><span class="bknm"><i class="fas fa-fire"></i> LPG</span><span class="bkvl">{{ results.lpg_emission }} kg</span></div><div class="bkbar"><div class="bkf bkf-l" style="width:{% if results.total_emission > 0 %}{% widthratio results.lpg_emission results.total_emission 100 %}{% else %}0{% endif %}%"></div></div></div>
+            <div class="bkitem cd"><div class="bkhdr"><span class="bknm"><i class="fas fa-route"></i> Travel</span><span class="bkvl">{{ results.travel_emission }} kg</span></div><div class="bkbar"><div class="bkf bkf-t" style="width:{% if results.total_emission > 0 %}{% widthratio results.travel_emission results.total_emission 100 %}{% else %}0{% endif %}%"></div></div></div>
+            <div class="bkitem cd"><div class="bkhdr"><span class="bknm"><i class="fas fa-dumpster"></i> Waste</span><span class="bkvl">{{ results.waste_emission }} kg</span></div><div class="bkbar"><div class="bkf bkf-w" style="width:{% if results.total_emission > 0 %}{% widthratio results.waste_emission results.total_emission 100 %}{% else %}0{% endif %}%"></div></div></div>
+        </div>
+    </div>
+
+    <div class="insb" style="margin-bottom:24px">
+        <div class="insi"><i class="fas fa-brain"></i></div>
+        <div><span class="inslb">AI-Powered Prediction</span><p class="instx">{{ fake_insight.prediction }}</p><p class="inssv">{{ fake_insight.saving }}</p></div>
+    </div>
+
+    <div class="sugsec">
+        <h2 class="stlin"><i class="fas fa-lightbulb"></i> Sustainability Suggestions</h2>
+        <div class="suggrid">
+            {% for s in suggestions %}
+            <div class="sugc cd">
+                <div class="sugico"><i class="fas {{ s.icon }}"></i></div>
+                <div class="sugct"><h4>{{ s.title }}</h4><p>{{ s.text }}</p></div>
+                <div class="sugsv"><i class="fas fa-piggy-bank"></i> {{ s.saving }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="racts">
+        <a href="{% url 'dashboard' %}" class="bp"><i class="fas fa-chart-line"></i> View Dashboard</a>
+        <a href="{% url 'calculator_input' %}" class="bs"><i class="fas fa-redo"></i> Recalculate</a>
+    </div>
+</div>
+{% endblock %}
